@@ -10,6 +10,7 @@
     <version>1</version>
     <modules>
         <module>core</module>
+        <module>admin</module>
     </modules>
 
     <properties>
