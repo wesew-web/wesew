@@ -1,25 +1,31 @@
 package com.wesew.core.abs;
 
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 /**
  * @author vladyslav.yemelianov
  */
+@MappedSuperclass
 public abstract class BaseEntity<T> {
 
-    private T id;
+    @Id
+    protected T id;
 
+    @Column
+    @Enumerated(EnumType.STRING)
     private StatusEntity status;
 
+    @Column(name = "creation_time")
     private LocalDateTime creationTime;
 
-    public T getId() {
-        return id;
-    }
+    public abstract T getId();
 
-    public void setId(T id) {
-        this.id = id;
-    }
+    public abstract void setId(T id);
 
     public StatusEntity getStatus() {
         return status;
