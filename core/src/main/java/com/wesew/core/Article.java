@@ -3,6 +3,7 @@ package com.wesew.core;
 import com.sun.org.apache.xpath.internal.operations.String;
 import com.wesew.core.abs.BaseEntity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -14,7 +15,7 @@ public class Article extends BaseEntity<Integer> {
 
     private String body;
 
-    private Set<Image> images;
+    private Set<Image> images = new HashSet<>();
 
     public String getTitle() {
         return title;

@@ -12,6 +12,7 @@
     <artifactId>admin</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.we.sew.site</groupId>
             <artifactId>core</artifactId>
