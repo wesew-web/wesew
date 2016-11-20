@@ -2,6 +2,7 @@ package com.wesew.admin.services;
 
 import com.wesew.admin.view.command.ImageCreateCommand;
 import com.wesew.admin.view.command.ImageUpdateCommand;
+import com.wesew.core.Image;
 
 import java.util.Collection;
 import java.util.Set;
@@ -10,10 +11,8 @@ import java.util.Set;
  * @author vladyslav.yemelianov
  */
 public interface ImageManager {
-    Object create(ImageCreateCommand imageCreateCommand);
-    Set<Object> create(Collection<ImageCreateCommand> images);
-
-    Object update(ImageUpdateCommand image);
-
-    Object delete(String id);
+    Image create(ImageCreateCommand imageCreateCommand);
+    Set<Image> create(Collection<ImageCreateCommand> images);
+    Image update(ImageUpdateCommand image);
+    Image delete(String id);
 }
