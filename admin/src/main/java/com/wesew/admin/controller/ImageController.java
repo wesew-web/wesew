@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  * @author vladyslav.yemelianov
  */
 @Controller
-@RequestMapping(value = "/image")
+@RequestMapping(value = "/images")
 public class ImageController {
 
     @Autowired

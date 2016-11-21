@@ -1,24 +1,24 @@
 package com.wesew.admin;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import com.wesew.core.services.FileManager;
+import com.wesew.core.services.UnixFileManager;
+import org.dozer.spring.DozerBeanMapperFactoryBean;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.*;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.jpa.JpaVendorAdapter;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import javax.sql.DataSource;
-import java.util.Properties;
-
+import java.io.IOException;
 
 /**
  * @author vladyslav.yemelianov
@@ -27,7 +27,18 @@ import java.util.Properties;
 @ComponentScan("com.wesew.admin")
 @EnableJpaRepositories(basePackages = "com.wesew.core.repo")
 @EnableTransactionManagement
+@EnableWebMvc
+@Import({RepositoryConfig.class})
+@PropertySource(value="classpath:wesew-admin-config.properties")
 public class AdminAppConfig extends WebMvcConfigurerAdapter {
+
+    @Value(value = "app.encoding")
+    private String encoding;
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -42,7 +53,7 @@ public class AdminAppConfig extends WebMvcConfigurerAdapter {
     @Bean
     public InternalResourceViewResolver jspViewResolver() {
         InternalResourceViewResolver bean = new InternalResourceViewResolver();
-        bean.setPrefix("/WEB-INF/view/");
+        bean.setPrefix("/WEB-INF/view/jsp/");
         bean.setSuffix(".jsp");
         return bean;
     }
@@ -56,36 +67,21 @@ public class AdminAppConfig extends WebMvcConfigurerAdapter {
     public ReloadableResourceBundleMessageSource getMessageSource() {
         ReloadableResourceBundleMessageSource resource = new ReloadableResourceBundleMessageSource();
         resource.setBasename("classpath:messages");
-        resource.setDefaultEncoding("UTF-8");
+        resource.setDefaultEncoding(encoding);
         return resource;
     }
 
-    @Bean
-    public DataSource dataSource(){
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/spring_jpa");
-        dataSource.setUsername( "tutorialuser" );
-        dataSource.setPassword( "tutorialmy5ql" );
-        return dataSource;
+    @Bean(name = "dozerBean")
+    public DozerBeanMapperFactoryBean configDozer() throws IOException {
+        DozerBeanMapperFactoryBean mapper = new DozerBeanMapperFactoryBean();
+        Resource[] resources = new PathMatchingResourcePatternResolver().getResources("classpath*:dozer-mappings.xml");
+        mapper.setMappingFiles(resources);
+        return mapper;
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[] { "org.baeldung.persistence.model" });
-
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        em.setJpaVendorAdapter(vendorAdapter);
-        em.setJpaProperties(additionalProperties());
-
-        return em;
+    public FileManager fileManager() {
+        return new UnixFileManager();
     }
 
-    Properties additionalProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-        return properties;
-    }
 }

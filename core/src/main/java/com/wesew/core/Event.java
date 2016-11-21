@@ -2,24 +2,28 @@ package com.wesew.core;
 
 import com.wesew.core.abs.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * @author vladyslav.yemelianov
  */
-@Table(name = "EVENT")
 @Entity
+@Table(name = "EVENT")
 public class Event extends BaseEntity<Integer> {
 
     @Column
     private String title;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "EVENT_HAS_IMAGE",
+            joinColumns = {
+                    @JoinColumn(name = "event_id", nullable = false)
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "image_id", nullable = false)
+            })
     private Set<Image> images = new HashSet<>();
 
     public String getTitle() {

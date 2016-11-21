@@ -3,11 +3,7 @@ package com.wesew.core;
 import com.sun.org.apache.xpath.internal.operations.String;
 import com.wesew.core.abs.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +20,14 @@ public class Article extends BaseEntity<Integer> {
     @Column
     private String body;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "ARTICLE_HAS_IMAGE",
+            joinColumns = {
+                    @JoinColumn(name = "article_id", nullable = false)
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "image_id", nullable = false)
+            })
     private Set<Image> images = new HashSet<>();
 
     public String getTitle() {

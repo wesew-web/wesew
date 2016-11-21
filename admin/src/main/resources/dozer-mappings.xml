@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <!--<configuration>-->
+        <!--<custom-converters>-->
+            <!--<converter type="we.sew.site.client.util.converter.RegistrationBeanConverter">-->
+                <!--<class-a>we.sew.site.client.view.command.SiteUserRegistrationCommand</class-a>-->
+                <!--<class-b>we.sew.site.core.model.SiteUser</class-b>-->
+            <!--</converter>-->
+        <!--</custom-converters>-->
+    <!--</configuration>-->
+    <!--<mapping>-->
+        <!--<class-a>we.sew.site.core.model.SiteUser</class-a>-->
+        <!--<class-b>we.sew.site.client.view.model.SiteUserViewModel</class-b>-->
+        <!--<field>-->
+            <!--<a>userRole.value</a>-->
+            <!--<b>userRole</b>-->
+        <!--</field>-->
+        <!--<field>-->
+            <!--<a>address.country.abr</a>-->
+            <!--<b>countryAbr</b>-->
+        <!--</field>-->
+        <!--<field>-->
+            <!--<a>address.country.title</a>-->
+            <!--<b>country</b>-->
+        <!--</field>-->
+        <!--<field>-->
+            <!--<a>address.address</a>-->
+            <!--<b>address</b>-->
+        <!--</field>-->
+    <!--</mapping>-->
+
+</mappings>
