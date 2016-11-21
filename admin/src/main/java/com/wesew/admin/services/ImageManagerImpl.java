@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author vladyslav.yemelianov
@@ -39,6 +40,16 @@ public class ImageManagerImpl implements ImageManager {
 
     @Override
     public Image delete(String id) {
+        return null;
+    }
+
+    @Override
+    public Set<Image> getAll() {
+        return imageRepository.findAll().stream().collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<Image> getAllActive() {
         return null;
     }
 }

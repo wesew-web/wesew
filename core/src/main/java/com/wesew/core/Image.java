@@ -44,4 +44,25 @@ public class Image extends BaseEntity<String> {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Image image = (Image) o;
+
+        if (title != null ? !title.equals(image.title) : image.title != null) return false;
+        return url != null ? url.equals(image.url) : image.url == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (url != null ? url.hashCode() : 0);
+        return result;
+    }
 }
