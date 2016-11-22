@@ -11,7 +11,7 @@ import java.util.Set;
  * @author vladyslav.yemelianov
  */
 public interface ImageManager {
-    Image create(ImageCreateCommand imageCreateCommand);
+    Image create(String title, byte[] data);
     Set<Image> create(Collection<ImageCreateCommand> images);
     Image update(ImageUpdateCommand image);
     Image delete(String id);

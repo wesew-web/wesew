@@ -34,6 +34,8 @@ public class AdminAppConfig extends WebMvcConfigurerAdapter {
 
     @Value(value = "app.encoding")
     private String encoding;
+    @Value(value = "app.images")
+    private String baseImageDirPath;
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
@@ -81,7 +83,7 @@ public class AdminAppConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public FileManager fileManager() {
-        return new UnixFileManager();
+        return new UnixFileManager(baseImageDirPath);
     }
 
 }

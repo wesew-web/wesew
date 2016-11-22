@@ -10,8 +10,11 @@ import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,21 +36,26 @@ public class ImageController {
         Set<Image> allImgs = imageManager.getAll();
         ModelAndView imagesModel = new ModelAndView("images");
         imagesModel.addObject("images", allImgs.stream()
-                .map(image -> mapper.map(image, ImageViewModel.class))
+                .map(this::map)
                 .collect(Collectors.toList()));
         return imagesModel;
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET, consumes = "application/json")
-    public @ResponseBody ActualResult createImage(@RequestBody ImageCreateCommand imageCreateCommand) {
-        Image createdImage = imageManager.create(imageCreateCommand);
-        return ActualResultBuilder.ok(createdImage);
+    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
+    public @ResponseBody ActualResult createImage(@Valid @RequestBody ImageCreateCommand imageCreateCommand,
+                                                  @RequestParam("data") MultipartFile data) throws IOException {
+        Image createdImage = imageManager.create(imageCreateCommand.getTitle(), data.getBytes());
+        return ActualResultBuilder.ok(map(createdImage));
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, consumes = "application/json")
     public ActualResult delete(@PathVariable String id) {
         Image deleted = imageManager.delete(id);
         return ActualResultBuilder.ok(deleted);
+    }
+
+    private ImageViewModel map(Image image) {
+        return mapper.map(image, ImageViewModel.class);
     }
 
 }

@@ -1,12 +1,12 @@
 package com.wesew.admin.view.command;
 
+import org.hibernate.validator.constraints.NotBlank;
 /**
  * @author vladyslav.yemelianov
  */
 public class ImageCreateCommand {
+    @NotBlank
     private String title;
-
-    private byte[] data;
 
     public String getTitle() {
         return title;
@@ -16,11 +16,4 @@ public class ImageCreateCommand {
         this.title = title;
     }
 
-    public byte[] getData() {
-        return data;
-    }
-
-    public void setData(byte[] data) {
-        this.data = data;
-    }
 }
