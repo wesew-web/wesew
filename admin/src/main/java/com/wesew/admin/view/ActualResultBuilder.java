@@ -14,7 +14,7 @@ public class ActualResultBuilder {
     public static ActualResult ok(Object data) {
         ActualResult res = new ActualResult();
         res.setStatus(ActualResult.Status.OK.getCode());
-        res.setData(data.toString());
+        res.setData(data);
         return res;
     }
 
@@ -41,7 +41,7 @@ public class ActualResultBuilder {
     public static ActualResult error(Object error) {
         ActualResult res = new ActualResult();
         res.setStatus(ActualResult.Status.ERROR.getCode());
-        res.setError(error.toString());
+        res.setError(error);
         return res;
     }
 }

@@ -44,11 +44,4 @@ public class ImageViewModel {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", path='" + path + '\'' +
-                ", status='" + status + '\'';
-    }
 }

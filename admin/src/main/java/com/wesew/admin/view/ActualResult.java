@@ -6,9 +6,9 @@ package com.wesew.admin.view;
 public class ActualResult {
     private int status;
 
-    private String data = "";
+    private Object data;
 
-    private String error = "";
+    private Object error;
 
     public int getStatus() {
         return status;
@@ -18,19 +18,19 @@ public class ActualResult {
         this.status = status;
     }
 
-    public String getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Object data) {
         this.data = data;
     }
 
-    public String getError() {
+    public Object getError() {
         return error;
     }
 
-    public void setError(String error) {
+    public void setError(Object error) {
         this.error = error;
     }
 
