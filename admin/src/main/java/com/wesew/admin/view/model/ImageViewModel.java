@@ -46,11 +46,9 @@ public class ImageViewModel {
 
     @Override
     public String toString() {
-        return "ImageViewModel{" +
-                "id='" + id + '\'' +
+        return "id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", path='" + path + '\'' +
-                ", status='" + status + '\'' +
-                '}';
+                ", status='" + status + '\'';
     }
 }

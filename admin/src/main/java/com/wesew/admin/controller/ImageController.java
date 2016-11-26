@@ -48,10 +48,10 @@ public class ImageController {
         return ActualResultBuilder.ok(map(createdImage));
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, consumes = "application/json")
-    public ActualResult delete(@PathVariable String id) {
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
+    public @ResponseBody ActualResult delete(@PathVariable String id) {
         Image deleted = imageManager.delete(id);
-        return ActualResultBuilder.ok(deleted);
+        return deleted == null ? ActualResultBuilder.error("not found") : ActualResultBuilder.ok(map(deleted));
     }
 
     private ImageViewModel map(Image image) {

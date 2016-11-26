@@ -10,7 +10,6 @@ import com.wesew.core.services.FileManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -50,7 +49,12 @@ public class ImageManagerImpl implements ImageManager {
 
     @Override
     public Image delete(String id) {
-        return null;
+        Image image = imageRepository.findOne(id);
+        if (isNotProcessable(image)) {
+            return null;
+        }
+        image.setStatus(StatusEntity.DELETED);
+        return imageRepository.save(image);
     }
 
     @Override
@@ -61,5 +65,9 @@ public class ImageManagerImpl implements ImageManager {
     @Override
     public Set<Image> getAllActive() {
         return null;
+    }
+
+    private boolean isNotProcessable(Image image) {
+        return (image == null || image.getStatus() == StatusEntity.DELETED);
     }
 }

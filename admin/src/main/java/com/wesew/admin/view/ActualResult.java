@@ -6,9 +6,9 @@ package com.wesew.admin.view;
 public class ActualResult {
     private int status;
 
-    private String data;
+    private String data = "";
 
-    private String error;
+    private String error = "";
 
     public int getStatus() {
         return status;

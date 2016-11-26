@@ -24,4 +24,24 @@ public class ActualResultBuilder {
         res.setData(data);
         return res;
     }
+
+    public static ActualResult error(String error) {
+        ActualResult res = new ActualResult();
+        res.setStatus(ActualResult.Status.ERROR.getCode());
+        res.setError(error);
+        return res;
+    }
+
+    public static ActualResult error() {
+        ActualResult res = new ActualResult();
+        res.setStatus(ActualResult.Status.ERROR.getCode());
+        return res;
+    }
+
+    public static ActualResult error(Object error) {
+        ActualResult res = new ActualResult();
+        res.setStatus(ActualResult.Status.ERROR.getCode());
+        res.setError(error.toString());
+        return res;
+    }
 }
