@@ -12,6 +12,8 @@ public class ImageViewModel {
 
     private String status;
 
+    private String creationTime;
+
     public String getId() {
         return id;
     }
@@ -44,4 +46,22 @@ public class ImageViewModel {
         this.status = status;
     }
 
+    public String getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(String creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("id='").append(id).append('\'');
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", path='").append(path).append('\'');
+        sb.append(", status='").append(status).append('\'');
+        sb.append(", creationTime='").append(creationTime).append('\'');
+        return sb.toString();
+    }
 }

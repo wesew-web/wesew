@@ -13,9 +13,12 @@
         </form>
     </div>
     <div>
+        <table>
+            <tr><td>Body</td><td>Delete</td></tr>
         <c:forEach items="${images}" var="image">
-            <p>${image}</p>
+            <tr><td>${image}</td><td><button class="delete" data-image-id="${image.id}">delete</button></td></tr>
         </c:forEach>
+        </table>
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -45,6 +48,21 @@
                     }
                 });
             });
+            $(".delete").click(function (e) {
+                e.preventDefault();
+                var button = $(e.target);
+                $.ajax({
+                    type: "DELETE",
+                    url: '/images/delete/' + button.data('image-id'),
+                    contentType:false,
+                    cache: false,
+                    processData : false,
+                    success : function(data) {
+                    },
+                    error : function(err) {
+                    }
+                });
+            })
         });
     </script>
 </body>
