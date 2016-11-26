@@ -11,10 +11,7 @@ import java.time.LocalDateTime;
  * @author vladyslav.yemelianov
  */
 @MappedSuperclass
-public abstract class BaseEntity<T> {
-
-    @Id
-    protected T id;
+public abstract class BaseEntity {
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -22,10 +19,6 @@ public abstract class BaseEntity<T> {
 
     @Column(name = "creation_time")
     private LocalDateTime creationTime;
-
-    public abstract T getId();
-
-    public abstract void setId(T id);
 
     public StatusEntity getStatus() {
         return status;
@@ -48,9 +41,8 @@ public abstract class BaseEntity<T> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        BaseEntity<?> that = (BaseEntity<?>) o;
+        BaseEntity that = (BaseEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (status != that.status) return false;
         return creationTime != null ? creationTime.equals(that.creationTime) : that.creationTime == null;
 
@@ -58,8 +50,7 @@ public abstract class BaseEntity<T> {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (status != null ? status.hashCode() : 0);
+        int result = status != null ? status.hashCode() : 0;
         result = 31 * result + (creationTime != null ? creationTime.hashCode() : 0);
         return result;
     }

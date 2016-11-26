@@ -2,11 +2,9 @@ package com.wesew.core;
 
 import com.wesew.core.abs.BaseEntity;
 import com.wesew.core.abs.StatusEntity;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
@@ -14,7 +12,12 @@ import java.time.LocalDateTime;
  */
 @Table(name = "IMAGE")
 @Entity
-public class Image extends BaseEntity<String> {
+public class Image extends BaseEntity {
+
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
     @Column
     private String title;
@@ -26,7 +29,6 @@ public class Image extends BaseEntity<String> {
         return id;
     }
 
-    @GeneratedValue(generator = "uuid2")
     public void setId(String id) {
         this.id = id;
     }
@@ -55,6 +57,7 @@ public class Image extends BaseEntity<String> {
 
         Image image = (Image) o;
 
+        if (id != null ? !id.equals(image.id) : image.id != null) return false;
         if (title != null ? !title.equals(image.title) : image.title != null) return false;
         return url != null ? url.equals(image.url) : image.url == null;
 
@@ -63,11 +66,11 @@ public class Image extends BaseEntity<String> {
     @Override
     public int hashCode() {
         int result = super.hashCode();
+        result = 31 * result + (id != null ? id.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (url != null ? url.hashCode() : 0);
         return result;
     }
-
 
     public static final class Builder {
         protected String id;

@@ -30,7 +30,8 @@ public class ImageManagerImpl implements ImageManager {
     public Image create(String title, byte[] data) {
         String id = NameGenerator.id();
         fileManager.writeImage(data, id);
-        Image builtImg = Image.Builder.anImage().url(id)
+        Image builtImg = Image.Builder.anImage()
+                .url(id)
                 .title(title)
                 .status(StatusEntity.ACTIVE)
                 .build();
