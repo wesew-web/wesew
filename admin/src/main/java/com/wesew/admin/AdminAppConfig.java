@@ -1,5 +1,6 @@
 package com.wesew.admin;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wesew.core.services.FileManager;
 import com.wesew.core.services.UnixFileManager;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
@@ -10,6 +11,8 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -19,6 +22,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author vladyslav.yemelianov
@@ -32,8 +36,10 @@ import java.io.IOException;
 @PropertySource(value="classpath:wesew-admin-config.properties")
 public class AdminAppConfig extends WebMvcConfigurerAdapter {
 
-    @Value(value = "app.encoding")
+    @Value(value = "${app.encoding}")
     private String encoding;
+    @Value(value = "${app.images}")
+    private String baseImageDirPath;
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
@@ -60,7 +66,9 @@ public class AdminAppConfig extends WebMvcConfigurerAdapter {
 
     @Bean(name = "multipartResolver")
     public CommonsMultipartResolver getMultipartResolver() {
-        return new CommonsMultipartResolver();
+        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+        commonsMultipartResolver.setDefaultEncoding(encoding);
+        return commonsMultipartResolver;
     }
 
     @Bean(name = "messageSource")
@@ -81,7 +89,19 @@ public class AdminAppConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public FileManager fileManager() {
-        return new UnixFileManager();
+        return new UnixFileManager(baseImageDirPath);
     }
 
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        MappingJackson2HttpMessageConverter httpMsgConverter = new MappingJackson2HttpMessageConverter();
+        httpMsgConverter.setObjectMapper(mapper());
+        converters.add(httpMsgConverter);
+        super.configureMessageConverters(converters);
+    }
+
+    @Bean
+    public ObjectMapper mapper() {
+        return new ObjectMapper();
+    }
 }

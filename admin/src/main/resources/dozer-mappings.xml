@@ -12,25 +12,14 @@
             <!--</converter>-->
         <!--</custom-converters>-->
     <!--</configuration>-->
-    <!--<mapping>-->
-        <!--<class-a>we.sew.site.core.model.SiteUser</class-a>-->
-        <!--<class-b>we.sew.site.client.view.model.SiteUserViewModel</class-b>-->
-        <!--<field>-->
-            <!--<a>userRole.value</a>-->
-            <!--<b>userRole</b>-->
-        <!--</field>-->
-        <!--<field>-->
-            <!--<a>address.country.abr</a>-->
-            <!--<b>countryAbr</b>-->
-        <!--</field>-->
-        <!--<field>-->
-            <!--<a>address.country.title</a>-->
-            <!--<b>country</b>-->
-        <!--</field>-->
-        <!--<field>-->
-            <!--<a>address.address</a>-->
-            <!--<b>address</b>-->
-        <!--</field>-->
-    <!--</mapping>-->
+
+    <mapping>
+        <class-a>com.wesew.core.Image</class-a>
+        <class-b>com.wesew.admin.view.model.ImageViewModel</class-b>
+        <field>
+            <a>url</a>
+            <b>path</b>
+        </field>
+    </mapping>
 
 </mappings>

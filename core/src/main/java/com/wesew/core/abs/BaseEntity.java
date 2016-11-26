@@ -42,4 +42,25 @@ public abstract class BaseEntity<T> {
     public void setCreationTime(LocalDateTime creationTime) {
         this.creationTime = creationTime;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BaseEntity<?> that = (BaseEntity<?>) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (status != that.status) return false;
+        return creationTime != null ? creationTime.equals(that.creationTime) : that.creationTime == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (creationTime != null ? creationTime.hashCode() : 0);
+        return result;
+    }
 }
