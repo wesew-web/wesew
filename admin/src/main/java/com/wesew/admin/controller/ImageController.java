@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Set;
@@ -41,10 +42,9 @@ public class ImageController {
         return imagesModel;
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
-    public @ResponseBody ActualResult createImage(@Valid @RequestBody ImageCreateCommand imageCreateCommand,
-                                                  @RequestParam("data") MultipartFile data) throws IOException {
-        Image createdImage = imageManager.create(imageCreateCommand.getTitle(), data.getBytes());
+    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "multipart/form-data",produces = "application/json")
+    public @ResponseBody ActualResult createImage(@RequestParam("title") String title, @RequestParam("file") MultipartFile file) throws IOException {
+        Image createdImage = imageManager.create(title, file.getBytes());
         return ActualResultBuilder.ok(map(createdImage));
     }
 

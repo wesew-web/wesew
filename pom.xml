@@ -18,6 +18,7 @@
         <hiber.ver>5.2.2.Final</hiber.ver>
         <dozer.ver>5.5.1</dozer.ver>
         <java.ver>1.8</java.ver>
+        <jackson.ver>2.8.4</jackson.ver>
     </properties>
 
     <dependencyManagement>
@@ -84,9 +85,14 @@
                 <version>6.0.5</version>
             </dependency>
             <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-jaxrs</artifactId>
-                <version>1.9.13</version>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.ver}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.ver}</version>
             </dependency>
             <dependency>
                 <groupId>javax.servlet</groupId>
@@ -103,7 +109,11 @@
                 <artifactId>flyway-core</artifactId>
                 <version>4.0.3</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>1.7.21</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

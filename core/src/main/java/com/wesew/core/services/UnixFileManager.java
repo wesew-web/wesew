@@ -16,7 +16,7 @@ public class UnixFileManager implements FileManager {
     private final String baseDirPath;
 
     public UnixFileManager(String baseDirPath) {
-        this.baseDirPath = baseDirPath;
+        this.baseDirPath = baseDirPath + File.separator;
         Path baseDir = Paths.get(this.baseDirPath);
         if (Files.notExists(baseDir)) {
             try {
