@@ -12,7 +12,11 @@ import java.util.Set;
  */
 @Table(name = "ARTICLE")
 @Entity
-public class Article extends BaseEntity<Integer> {
+public class Article extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Column
     private String title;
@@ -54,12 +58,11 @@ public class Article extends BaseEntity<Integer> {
         this.images = images;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 }

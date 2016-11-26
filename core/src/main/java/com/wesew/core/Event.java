@@ -1,6 +1,7 @@
 package com.wesew.core;
 
 import com.wesew.core.abs.BaseEntity;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -11,7 +12,10 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "EVENT")
-public class Event extends BaseEntity<Integer> {
+public class Event extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Column
     private String title;
@@ -42,12 +46,11 @@ public class Event extends BaseEntity<Integer> {
         this.images = images;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 }
