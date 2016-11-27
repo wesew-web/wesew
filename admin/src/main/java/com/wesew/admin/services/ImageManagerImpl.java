@@ -48,6 +48,11 @@ public class ImageManagerImpl implements ImageManager {
     }
 
     @Override
+    public Image get(String id) {
+        return imageRepository.findOne(id);
+    }
+
+    @Override
     public Image delete(String id) {
         Image image = imageRepository.findOne(id);
         if (isNotProcessable(image)) {
@@ -64,7 +69,7 @@ public class ImageManagerImpl implements ImageManager {
 
     @Override
     public Set<Image> getAllActive() {
-        return null;
+        return imageRepository.findAllByStatus(StatusEntity.ACTIVE).stream().collect(Collectors.toSet());
     }
 
     private boolean isNotProcessable(Image image) {

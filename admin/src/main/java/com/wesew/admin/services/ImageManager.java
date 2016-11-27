@@ -14,6 +14,7 @@ public interface ImageManager {
     Image create(String title, byte[] data);
     Set<Image> create(Collection<ImageCreateCommand> images);
     Image update(ImageUpdateCommand image);
+    Image get(String id);
     Image delete(String id);
     Set<Image> getAll();
     Set<Image> getAllActive();
