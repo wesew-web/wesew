@@ -1,7 +1,6 @@
 package com.wesew.admin.services;
 
 import com.wesew.admin.view.command.ImageCreateCommand;
-import com.wesew.admin.view.command.ImageUpdateCommand;
 import com.wesew.core.Image;
 
 import java.util.Collection;
@@ -13,7 +12,7 @@ import java.util.Set;
 public interface ImageManager {
     Image create(String title, byte[] data);
     Set<Image> create(Collection<ImageCreateCommand> images);
-    Image update(ImageUpdateCommand image);
+    Image update(String id, String title);
     Image get(String id);
     Image delete(String id);
     Set<Image> getAll();

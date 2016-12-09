@@ -5,6 +5,7 @@ import com.wesew.admin.view.command.ImageUpdateCommand;
 import com.wesew.core.Image;
 import com.wesew.core.NameGenerator;
 import com.wesew.core.abs.StatusEntity;
+import com.wesew.core.exc.ImageNotFoundException;
 import com.wesew.core.repo.ImageRepository;
 import com.wesew.core.services.FileManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +44,10 @@ public class ImageManagerImpl implements ImageManager {
     }
 
     @Override
-    public Image update(ImageUpdateCommand image) {
-        return null;
+    public Image update(String id, String title) {
+        Image image = valid(get(id));
+        image.setTitle(title);
+        return imageRepository.save(image);
     }
 
     @Override
@@ -54,10 +57,7 @@ public class ImageManagerImpl implements ImageManager {
 
     @Override
     public Image delete(String id) {
-        Image image = imageRepository.findOne(id);
-        if (isNotProcessable(image)) {
-            return null;
-        }
+        Image image = valid(imageRepository.findOne(id));
         image.setStatus(StatusEntity.DELETED);
         return imageRepository.save(image);
     }
@@ -72,7 +72,9 @@ public class ImageManagerImpl implements ImageManager {
         return imageRepository.findAllByStatus(StatusEntity.ACTIVE).stream().collect(Collectors.toSet());
     }
 
-    private boolean isNotProcessable(Image image) {
-        return (image == null || image.getStatus() == StatusEntity.DELETED);
+    private Image valid(Image image) {
+        if (image == null || image.getStatus() == StatusEntity.DELETED)
+            throw new ImageNotFoundException("Cannot handle image");
+        return image;
     }
 }

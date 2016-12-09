@@ -4,12 +4,14 @@ import com.wesew.admin.services.ImageManager;
 import com.wesew.admin.view.ActualResult;
 import com.wesew.admin.view.ActualResultBuilder;
 import com.wesew.admin.view.command.ImageCreateCommand;
+import com.wesew.admin.view.command.ImageUpdateCommand;
 import com.wesew.admin.view.model.ImageViewModel;
 import com.wesew.core.Image;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -54,8 +56,13 @@ public class ImageController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ActualResult delete(@PathVariable String id) {
-        Image deleted = imageManager.delete(id);
-        return deleted == null ? error("not found") : ok(map(deleted));
+        return ok(map(imageManager.delete(id)));
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ActualResult update(@RequestBody @Valid ImageUpdateCommand updateCommand, BindingResult result) {
+        return result.hasErrors() ? error(result)
+                : ok(map(imageManager.update(updateCommand.getId(), updateCommand.getTitle())));
     }
 
     @RequestMapping(value = "/alll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
